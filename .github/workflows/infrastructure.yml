@@ -15,7 +15,7 @@ env:
   FuncAppName: myfirstfunctionapp-fa
   
 jobs:
-  DeployToAzure:
+  Infrastructure:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
