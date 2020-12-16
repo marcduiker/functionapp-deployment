@@ -1,0 +1,11 @@
+### 
+GET http://localhost:7071/api/HelloWorldHttpTrigger?name="Ada"
+
+###
+
+POST http://localhost:7071/api/HelloWorldHttpTrigger
+Content-Type: application/json
+
+{
+    "name" : "Grace"
+}
