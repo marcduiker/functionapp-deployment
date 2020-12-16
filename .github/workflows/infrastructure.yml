@@ -30,7 +30,7 @@ jobs:
         inlineScript: |
           az group create \
             --name ${{ env.ResourceGroupName }} \
-            --location ${{ env.Location }}
+            --location ${{ env.Location }} \
             --tags type=temp
     - name: Create Storage Account
       uses: azure/CLI@v1
