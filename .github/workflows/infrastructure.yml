@@ -11,10 +11,10 @@ on:
   workflow_dispatch:
 
 env:
-  Location: westeurope
-  ResourceGroupName: myfirstfunction-rg
-  StorageAccountName: myfirstfunctionst
-  FuncAppName: myfirstfunctionapp-fa
+  FUNCTION_APP_NAME: myfirstfunctionapp-fa
+  LOCATION: westeurope
+  RESOURCE_GROUP_NAME: myfirstfunction-rg
+  STORAGE_ACCOUNT_NAME: myfirstfunctionst
   
 jobs:
   Infrastructure:
@@ -31,17 +31,17 @@ jobs:
       with:
         inlineScript: |
           az group create \
-            --name ${{ env.ResourceGroupName }} \
-            --location ${{ env.Location }} \
+            --name ${{ env.RESOURCE_GROUP_NAME }} \
+            --location ${{ env.LOCATION }} \
             --tags type=temp
     - name: Create Storage Account
       uses: azure/CLI@v1
       with:
         inlineScript: |
           az storage account create \
-            --name ${{ env.StorageAccountName }} \
-            --resource-group ${{ env.ResourceGroupName }} \
-            --location ${{ env.Location }} \
+            --name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+            --location ${{ env.LOCATION }} \
             --sku Standard_LRS \
             --kind StorageV2 \
             --access-tier Hot
@@ -50,10 +50,10 @@ jobs:
       with:
         inlineScript: |
           az functionapp create \
-            --name ${{ env.FuncAppName }} \
-            --resource-group ${{ env.ResourceGroupName }} \
-            --consumption-plan-location ${{ env.Location }} \
-            --storage-account ${{ env.StorageAccountName }} \
+            --name ${{ env.FUNCTION_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+            --consumption-plan-location ${{ env.LOCATION }} \
+            --storage-account ${{ env.STORAGE_ACCOUNT_NAME }} \
             --runtime dotnet \
             --os-type Windows \
             --functions-version 3

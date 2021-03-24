@@ -9,8 +9,9 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: myfirstfunctionapp-fa
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '/src/MyFirstAzureFunction'
+  FUNCTION_APP_NAME: myfirstfunctionapp-fa
+  FUNCTION_APP_PACKAGE_PATH: '/src/MyFirstAzureFunction'
+  RESOURCE_GROUP_NAME: myfirstfunction-rg
   DOTNET_VERSION: '3.1.404'
 
 jobs:
@@ -30,21 +31,22 @@ jobs:
     - name: 'Resolve Project Dependencies'
       shell: bash
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        pushd './${{ env.FUNCTION_APP_PACKAGE_PATH }}'
         dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        app-name: ${{ env.FUNCTION_APP_NAME }}
+        package: './${{ env.FUNCTION_APP_PACKAGE_PATH }}/output'
     - name: Set App Settings
       uses: azure/CLI@v1
       with:
         inlineScript: |
           az functionapp config appsettings set \
-            --name ${{ env.FuncAppName }} \
-            --resource-group ${{ env.ResourceGroupName }} \
-            --settings "Message.Success=This HTTP triggered function executed successfully." \
-                       "Message.Fail=Pass a name in the query string or in the request body for a personalized response."
+            --name ${{ env.FUNCTION_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+            --settings \
+              "Message.Success=This HTTP triggered function executed successfully." \
+              "Message.Fail=Pass a name in the query string or in the request body for a personalized response."
