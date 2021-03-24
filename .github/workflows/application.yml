@@ -39,3 +39,13 @@ jobs:
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+    - name: Set App Settings
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az functionapp config appsettings set \
+            --name ${{ env.FuncAppName }} \
+            --resource-group ${{ env.ResourceGroupName }} \
+            --settings \ 
+              "Message.Success=This HTTP triggered function executed successfully." \
+              "Message.Fail=Pass a name in the query string or in the request body for a personalized response."
