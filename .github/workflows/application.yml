@@ -46,6 +46,5 @@ jobs:
           az functionapp config appsettings set \
             --name ${{ env.FuncAppName }} \
             --resource-group ${{ env.ResourceGroupName }} \
-            --settings \ 
-              "Message.Success=This HTTP triggered function executed successfully." \
-              "Message.Fail=Pass a name in the query string or in the request body for a personalized response."
+            --settings "Message.Success=This HTTP triggered function executed successfully." \
+                       "Message.Fail=Pass a name in the query string or in the request body for a personalized response."
